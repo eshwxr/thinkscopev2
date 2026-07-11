@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment / secrets
+.env
+
+# Data & vector store (regenerated, not source)
+chroma_db/
+.ragas_cache/
+data/*
+!data/.gitkeep
+
+# OS
+.DS_Store

@@ -1,0 +1,6 @@
+[project]
+name = "thinkscope"
+version = "0.1.0"
+description = "Autonomous multi-agent research intelligence RAG system (Planner -> Retrieval -> Critic loop with citation verification)"
+requires-python = ">=3.13"
+dependencies = []

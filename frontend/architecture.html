@@ -19,6 +19,7 @@
     --accent-soft: rgba(124, 158, 255, 0.12);
     --good: #4ade80;
     --warn: #fbbf24;
+    --bad: #f87171;
     --mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
     --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
   }
@@ -34,17 +35,23 @@
     overflow-x: hidden;
   }
 
-  body::before {
+  /* ambient background */
+  .ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .ambient::before {
     content: '';
-    position: fixed;
-    top: -25%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1000px;
-    height: 1000px;
-    background: radial-gradient(circle, rgba(124,158,255,0.09) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 0;
+    position: absolute; top: -22%; left: 50%; transform: translateX(-50%);
+    width: 950px; height: 950px;
+    background: radial-gradient(circle, rgba(124,158,255,0.10) 0%, rgba(181,145,255,0.05) 40%, transparent 65%);
+  }
+  .ambient::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(124,158,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,158,255,0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, black 30%, transparent 75%);
   }
 
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
@@ -53,11 +60,11 @@
   nav {
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(16px);
-    background: rgba(10, 11, 15, 0.75);
+    background: rgba(10, 11, 15, 0.72);
     border-bottom: 1px solid var(--card-border);
   }
   nav .nav-inner {
-    max-width: 1080px; margin: 0 auto; padding: 18px 24px;
+    max-width: 1080px; margin: 0 auto; padding: 16px 24px;
     display: flex; align-items: center; justify-content: space-between;
   }
   .logo {
@@ -70,7 +77,7 @@
     background: linear-gradient(90deg, var(--accent), var(--accent-2));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  nav .links { display: flex; gap: 28px; font-size: 14px; color: var(--text-dim); }
+  nav .links { display: flex; gap: 28px; font-size: 14px; color: var(--text-dim); align-items: center; }
   nav .links a { color: inherit; text-decoration: none; transition: color 0.15s; }
   nav .links a:hover, nav .links a.active { color: var(--text); }
 
@@ -86,12 +93,8 @@
     background: linear-gradient(180deg, #ffffff 0%, #b7bccb 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  header.page-head p {
-    max-width: 620px; margin: 20px auto 0;
-    font-size: 16.5px; color: var(--text-dim);
-  }
+  header.page-head p { max-width: 620px; margin: 20px auto 0; font-size: 16.5px; color: var(--text-dim); }
 
-  /* LEGEND */
   .legend {
     display: flex; justify-content: center; gap: 22px; flex-wrap: wrap;
     margin: 36px 0 0; font-size: 12.5px; color: var(--text-faint);
@@ -99,21 +102,50 @@
   }
   .legend span { display: flex; align-items: center; gap: 7px; }
   .legend .k { width: 10px; height: 10px; border-radius: 3px; }
-  .k-llm { background: var(--accent); }
-  .k-local { background: var(--good); }
-  .k-loop { background: var(--warn); }
+  .k-llm { background: var(--accent); box-shadow: 0 0 10px rgba(124,158,255,0.6); }
+  .k-local { background: var(--good); box-shadow: 0 0 10px rgba(74,222,128,0.5); }
+  .k-loop { background: var(--warn); box-shadow: 0 0 10px rgba(251,191,36,0.5); }
 
-  /* FLOW */
+  /* FLOW + animated spine */
   .flow { position: relative; padding: 70px 0 40px; }
   .flow::before {
     content: '';
     position: absolute; top: 0; bottom: 0; left: 50%;
     width: 2px; transform: translateX(-50%);
-    background: linear-gradient(180deg,
-      transparent 0%,
-      var(--card-border) 4%,
-      var(--card-border) 96%,
-      transparent 100%);
+    background: linear-gradient(180deg, transparent 0%, var(--card-border) 4%, var(--card-border) 96%, transparent 100%);
+  }
+  #spineFill {
+    position: absolute; top: 0; left: 50%;
+    width: 2px; transform: translateX(-50%);
+    height: 0%;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 12px rgba(124,158,255,0.5);
+    z-index: 1;
+    transition: height 0.15s linear;
+  }
+  #spineFill::after {
+    content: '';
+    position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 16px var(--accent-2), 0 0 34px rgba(181,145,255,0.5);
+  }
+
+  /* data pulses travelling the spine */
+  .flow-dot {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #cfe0ff;
+    box-shadow: 0 0 10px rgba(124,158,255,0.9);
+    z-index: 1;
+    animation: travel 5.5s linear infinite;
+  }
+  .flow-dot.d2 { animation-delay: 2.75s; }
+  @keyframes travel {
+    0%   { top: 0%; opacity: 0; }
+    6%   { opacity: 0.9; }
+    92%  { opacity: 0.9; }
+    100% { top: 100%; opacity: 0; }
   }
 
   .terminal-node {
@@ -129,8 +161,14 @@
     border-color: rgba(74, 222, 128, 0.35);
     color: var(--good);
     background: rgba(74, 222, 128, 0.06);
+    animation: endGlow 3s ease-in-out infinite;
+  }
+  @keyframes endGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(74,222,128,0); }
+    50% { box-shadow: 0 0 26px rgba(74,222,128,0.22); }
   }
 
+  /* STAGES */
   .stage {
     position: relative; z-index: 2;
     max-width: 640px; margin: 56px auto;
@@ -138,7 +176,7 @@
     border: 1px solid var(--card-border);
     border-radius: 16px;
     padding: 28px 30px 24px;
-    opacity: 0; transform: translateY(24px);
+    opacity: 0; transform: translateY(26px);
     transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.2s;
   }
   .stage.visible { opacity: 1; transform: translateY(0); }
@@ -153,9 +191,16 @@
     color: var(--text-dim);
     font-family: var(--mono); font-size: 13px; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.4s, color 0.4s, box-shadow 0.4s;
   }
-  .stage.llm::before { border-color: var(--accent); color: var(--accent); }
-  .stage.local::before { border-color: var(--good); color: var(--good); }
+  .stage.llm.visible::before {
+    border-color: var(--accent); color: var(--accent);
+    box-shadow: 0 0 18px rgba(124,158,255,0.35);
+  }
+  .stage.local.visible::before {
+    border-color: var(--good); color: var(--good);
+    box-shadow: 0 0 18px rgba(74,222,128,0.3);
+  }
 
   .stage-top {
     display: flex; align-items: baseline; justify-content: space-between;
@@ -170,10 +215,7 @@
   .stage .tagline { color: var(--text-dim); font-size: 14.5px; margin-bottom: 16px; }
 
   .stage ul { list-style: none; display: grid; gap: 9px; margin-bottom: 18px; }
-  .stage ul li {
-    font-size: 13.5px; color: var(--text-dim);
-    padding-left: 20px; position: relative;
-  }
+  .stage ul li { font-size: 13.5px; color: var(--text-dim); padding-left: 20px; position: relative; }
   .stage ul li::before {
     content: ''; position: absolute; left: 4px; top: 8px;
     width: 5px; height: 5px; border-radius: 50%;
@@ -197,38 +239,127 @@
   .io.cost-llm { border-color: rgba(124,158,255,0.3); color: var(--accent); }
   .io.cost-local { border-color: rgba(74,222,128,0.3); color: var(--good); }
 
-  /* RETRY LOOP BRACKET */
+  /* ---- per-stage micro-viz ---- */
+  .viz {
+    background: #0d0f14;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 18px;
+    font-family: var(--mono); font-size: 11.5px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; flex-wrap: wrap;
+    min-height: 62px;
+  }
+  .chip {
+    padding: 6px 12px; border-radius: 7px;
+    border: 1px solid var(--card-border);
+    background: var(--card); color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .viz .vjoin { color: var(--text-faint); }
+
+  /* planner: query splits into sub-questions */
+  .viz-planner .sq {
+    opacity: 0; transform: translateY(8px) scale(0.96);
+    border-color: rgba(124,158,255,0.35); color: var(--accent);
+  }
+  .visible .viz-planner .sq { animation: chipIn 0.5s ease forwards; }
+  .visible .viz-planner .sq:nth-of-type(2) { animation-delay: 0.35s; }
+  .visible .viz-planner .sq:nth-of-type(3) { animation-delay: 0.6s; }
+  .visible .viz-planner .sq:nth-of-type(4) { animation-delay: 0.85s; }
+  @keyframes chipIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  /* retrieval: two streams fuse into RRF */
+  .viz-retrieval .side { opacity: 0; }
+  .visible .viz-retrieval .side.l { animation: fromLeft 0.6s 0.25s ease forwards; }
+  .visible .viz-retrieval .side.r { animation: fromRight 0.6s 0.25s ease forwards; }
+  @keyframes fromLeft  { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+  @keyframes fromRight { from { opacity: 0; transform: translateX(18px); }  to { opacity: 1; transform: none; } }
+  .viz-retrieval .rrf {
+    border-color: rgba(74,222,128,0.4); color: var(--good);
+    opacity: 0; transform: scale(0.8);
+  }
+  .visible .viz-retrieval .rrf { animation: popIn 0.45s 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+  @keyframes popIn { to { opacity: 1; transform: scale(1); } }
+
+  /* critic: fail -> retry -> pass */
+  .viz-critic .verdict { opacity: 0; }
+  .viz-critic .fail { border-color: rgba(251,191,36,0.4); color: var(--warn); }
+  .viz-critic .pass { border-color: rgba(74,222,128,0.4); color: var(--good); transform: scale(0.85); }
+  .visible .viz-critic .fail { animation: chipIn 0.4s 0.25s ease forwards; }
+  .visible .viz-critic .varrow { opacity: 0; animation: chipIn 0.3s 0.85s ease forwards; }
+  .viz-critic .varrow .spin { display: inline-block; animation: rot 1.6s linear infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+  .visible .viz-critic .pass { animation: popIn 0.45s 1.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+  /* synthesis: claims typing in with chunk ids */
+  .viz-synth { flex-direction: column; align-items: stretch; gap: 7px; }
+  .viz-synth .cl {
+    opacity: 0; transform: translateY(6px);
+    color: var(--text-dim); text-align: left;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .viz-synth .cl b { color: var(--accent); font-weight: 600; }
+  .visible .viz-synth .cl:nth-child(1) { animation: chipIn 0.45s 0.25s ease forwards; }
+  .visible .viz-synth .cl:nth-child(2) { animation: chipIn 0.45s 0.6s ease forwards; }
+  .visible .viz-synth .cl:nth-child(3) { animation: chipIn 0.45s 0.95s ease forwards; }
+
+  /* verifier: stamps */
+  .viz-verify { flex-direction: column; align-items: stretch; gap: 7px; }
+  .viz-verify .vc {
+    display: flex; align-items: center; gap: 9px;
+    color: var(--text-dim); text-align: left;
+    opacity: 0;
+  }
+  .visible .viz-verify .vc:nth-child(1) { animation: chipIn 0.4s 0.25s ease forwards; }
+  .visible .viz-verify .vc:nth-child(2) { animation: chipIn 0.4s 0.55s ease forwards; }
+  .visible .viz-verify .vc:nth-child(3) { animation: chipIn 0.4s 0.85s ease forwards; }
+  .viz-verify .stamp {
+    width: 18px; height: 18px; border-radius: 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+    background: rgba(74,222,128,0.15); color: var(--good);
+    transform: scale(0);
+  }
+  .viz-verify .stamp.x { background: rgba(248,113,113,0.15); color: var(--bad); }
+  .visible .viz-verify .vc:nth-child(1) .stamp { animation: stampIn 0.35s 0.55s cubic-bezier(0.34, 1.8, 0.64, 1) forwards; }
+  .visible .viz-verify .vc:nth-child(2) .stamp { animation: stampIn 0.35s 0.85s cubic-bezier(0.34, 1.8, 0.64, 1) forwards; }
+  .visible .viz-verify .vc:nth-child(3) .stamp { animation: stampIn 0.35s 1.15s cubic-bezier(0.34, 1.8, 0.64, 1) forwards; }
+  @keyframes stampIn { to { transform: scale(1); } }
+
+  /* RETRY LOOP — animated marching dashes */
   .loop-wrap { position: relative; }
-  .loop-bracket {
+  svg.loop-bracket {
     position: absolute;
     top: 90px; bottom: 90px;
     left: calc(50% + 330px);
-    width: 56px;
-    border: 2px dashed rgba(251, 191, 36, 0.45);
-    border-left: none;
-    border-radius: 0 20px 20px 0;
+    width: 58px; height: calc(100% - 180px);
+    overflow: visible;
     pointer-events: none;
   }
-  .loop-bracket::after {
-    content: '';
-    position: absolute; left: -5px; top: -6px;
-    border: 6px solid transparent;
-    border-right-color: rgba(251, 191, 36, 0.65);
-    transform: rotate(180deg);
+  svg.loop-bracket path.dashes {
+    fill: none;
+    stroke: rgba(251, 191, 36, 0.55);
+    stroke-width: 2;
+    stroke-dasharray: 7 8;
+    animation: march 1.2s linear infinite;
+  }
+  @keyframes march { to { stroke-dashoffset: -15; } }
+  svg.loop-bracket path.head {
+    fill: rgba(251, 191, 36, 0.8);
   }
   .loop-label {
     position: absolute;
-    left: calc(50% + 342px);
+    left: calc(50% + 344px);
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
-    transform-origin: center;
     font-family: var(--mono); font-size: 11px;
     color: var(--warn);
-    white-space: nowrap;
-    letter-spacing: 0.05em;
+    white-space: nowrap; letter-spacing: 0.05em;
   }
   @media (max-width: 1420px) {
-    .loop-bracket, .loop-label { display: none; }
+    svg.loop-bracket, .loop-label { display: none; }
   }
   .loop-chip {
     display: none;
@@ -240,42 +371,29 @@
     position: relative; z-index: 2;
     background: var(--bg);
   }
+  .loop-chip .spin { display: inline-block; animation: rot 2s linear infinite; }
   @media (max-width: 1420px) { .loop-chip { display: block; } }
 
-  /* CONNECT ARROWS on spine */
-  .down-arrow {
-    position: relative; z-index: 2;
-    width: fit-content; margin: -32px auto 24px;
-    color: var(--text-faint); font-size: 18px;
-    background: var(--bg); padding: 2px 6px;
-  }
-
-  /* PARALLEL STRIP */
-  .parallel {
-    margin: 80px auto 0; max-width: 760px;
-    border-top: 1px solid var(--card-border);
-    padding-top: 56px;
-  }
+  /* PARALLEL */
+  .parallel { margin: 80px auto 0; max-width: 760px; border-top: 1px solid var(--card-border); padding-top: 56px; }
   .parallel h4 {
     text-align: center; font-size: 13px; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--text-faint);
     font-weight: 600; margin-bottom: 24px;
   }
-  .parallel-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
-  }
+  .parallel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
   .parallel-card {
     background: var(--bg-soft);
     border: 1px solid var(--card-border);
     border-radius: 12px; padding: 18px 20px;
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.15s;
   }
+  .parallel-card.visible { opacity: 1; transform: none; }
+  .parallel-card:hover { border-color: rgba(124,158,255,0.3); }
   .parallel-card .t { font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
   .parallel-card .d { font-size: 13px; color: var(--text-dim); }
-  .parallel-card .f {
-    font-family: var(--mono); font-size: 11px; color: var(--text-faint);
-    margin-top: 10px;
-  }
+  .parallel-card .f { font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin-top: 10px; }
 
   .back-cta { text-align: center; padding: 70px 0 30px; }
   .btn {
@@ -288,15 +406,19 @@
   }
   .btn:hover { border-color: var(--text-dim); }
 
-  footer {
-    border-top: 1px solid var(--card-border);
-    padding: 40px 0; text-align: center;
-    color: var(--text-faint); font-size: 13px;
-  }
+  footer { border-top: 1px solid var(--card-border); padding: 40px 0; text-align: center; color: var(--text-faint); font-size: 13px; }
   footer a { color: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .stage, .parallel-card, .viz .sq, .viz .side, .viz .rrf, .viz .verdict, .viz .cl, .viz .vc { opacity: 1 !important; transform: none !important; }
+    .viz-verify .stamp { transform: scale(1) !important; }
+  }
 </style>
 </head>
 <body>
+
+<div class="ambient"></div>
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -337,7 +459,11 @@
     </div>
   </header>
 
-  <div class="flow">
+  <div class="flow" id="flow">
+    <div id="spineFill"></div>
+    <div class="flow-dot"></div>
+    <div class="flow-dot d2"></div>
+
     <div class="terminal-node">"How does hybrid search improve RAG?"</div>
 
     <div class="stage llm" data-n="1">
@@ -346,6 +472,15 @@
         <span class="file">app/planner.py</span>
       </div>
       <div class="tagline">Breaks the question into a plan before touching any documents.</div>
+
+      <div class="viz viz-planner">
+        <span class="chip">user query</span>
+        <span class="vjoin">⇢</span>
+        <span class="chip sq">sub-q 1</span>
+        <span class="chip sq">sub-q 2</span>
+        <span class="chip sq">sub-q 3</span>
+      </div>
+
       <ul>
         <li>Decomposes the query into <b>1–3 focused sub-questions</b> that together answer it fully.</li>
         <li>Narrow questions pass through untouched — no forced decomposition.</li>
@@ -359,7 +494,10 @@
     </div>
 
     <div class="loop-wrap">
-      <div class="loop-bracket"></div>
+      <svg class="loop-bracket" viewBox="0 0 58 400" preserveAspectRatio="none">
+        <path class="dashes" d="M0 12 H28 a24 24 0 0 1 24 24 V364 a24 24 0 0 1 -24 24 H0" />
+        <path class="head" d="M2 12 l12 -6 v12 Z" transform="translate(-2 0)" />
+      </svg>
       <div class="loop-label">reformulated query &middot; max ×2</div>
 
       <div class="stage local" data-n="2">
@@ -368,6 +506,15 @@
           <span class="file">app/hybrid_retrieval.py</span>
         </div>
         <div class="tagline">Two search engines vote, and their disagreement is the feature.</div>
+
+        <div class="viz viz-retrieval">
+          <span class="chip side l">dense &middot; MiniLM</span>
+          <span class="vjoin">⇢</span>
+          <span class="chip rrf">RRF fuse &middot; top-8</span>
+          <span class="vjoin">⇠</span>
+          <span class="chip side r">sparse &middot; BM25</span>
+        </div>
+
         <ul>
           <li><b>Dense:</b> <code>all-MiniLM-L6-v2</code> embeddings over 110 papers / 6k chunks in ChromaDB — catches meaning, misses exact terms.</li>
           <li><b>Sparse:</b> BM25 keyword index — catches exact terms, misses paraphrases.</li>
@@ -387,6 +534,13 @@
           <span class="file">app/critic.py &middot; app/graph.py</span>
         </div>
         <div class="tagline">The self-doubt stage — decides whether retrieval actually worked.</div>
+
+        <div class="viz viz-critic">
+          <span class="chip verdict fail">insufficient <span class="spin">⟲</span> reformulate</span>
+          <span class="vjoin varrow">retry &rarr;</span>
+          <span class="chip verdict pass">sufficient ✓ continue</span>
+        </div>
+
         <ul>
           <li>Judges whether the accumulated chunks are <b>sufficient to answer correctly</b> — not exhaustively.</li>
           <li>On <b>fail</b>: writes a reformulated search query and loops back to Retrieval — at most twice, then falls through with best-effort chunks. Never loops forever.</li>
@@ -399,7 +553,7 @@
         </div>
       </div>
     </div>
-    <div class="loop-chip">⟲ critic fail → reformulated query → retrieval (max ×2)</div>
+    <div class="loop-chip"><span class="spin">⟲</span> critic fail → reformulated query → retrieval (max ×2)</div>
 
     <div class="stage llm" data-n="4">
       <div class="stage-top">
@@ -407,9 +561,16 @@
         <span class="file">app/citation_verifier.py</span>
       </div>
       <div class="tagline">No free-form prose allowed — every sentence must name its source.</div>
+
+      <div class="viz viz-synth">
+        <div class="cl">“RRF fuses the two rankings…” <b>[2404.07220_chunk3]</b></div>
+        <div class="cl">“BM25 catches exact-term matches…” <b>[2108.06279_chunk25]</b></div>
+        <div class="cl">“Dense retrieval covers paraphrases…” <b>[2502.01113_chunk103]</b></div>
+      </div>
+
       <ul>
         <li>Writes the answer as <b>individual claims</b>, one sentence each.</li>
-        <li>Each claim is tagged with the <b>exact chunk ID</b> it came from — e.g. <code>2404.07220v2_chunk3</code>.</li>
+        <li>Each claim is tagged with the <b>exact chunk ID</b> it came from.</li>
         <li>A claim it can't attribute to a chunk doesn't get written.</li>
       </ul>
       <div class="io-row">
@@ -425,6 +586,13 @@
         <span class="file">app/citation_verifier.py</span>
       </div>
       <div class="tagline">An independent fact-checker with no loyalty to the writer.</div>
+
+      <div class="viz viz-verify">
+        <div class="vc"><span class="stamp">✓</span> claim 1 — supported by its cited chunk</div>
+        <div class="vc"><span class="stamp">✓</span> claim 2 — supported by its cited chunk</div>
+        <div class="vc"><span class="stamp x">✕</span> claim 3 — flagged UNVERIFIED, kept visible</div>
+      </div>
+
       <ul>
         <li>For every claim, a <b>separate LLM call</b> reads only the cited chunk and asks: does this text actually support this claim?</li>
         <li>Claims that fail get a visible <b>UNVERIFIED</b> badge — they're flagged, not silently dropped.</li>
@@ -471,6 +639,7 @@
 </footer>
 
 <script>
+  /* stage + parallel-card reveal */
   const observer = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (e.isIntersecting) {
@@ -479,8 +648,19 @@
       }
     }
   }, { threshold: 0.15 });
+  document.querySelectorAll('.stage, .parallel-card').forEach(s => observer.observe(s));
 
-  document.querySelectorAll('.stage').forEach(s => observer.observe(s));
+  /* spine fill tracks scroll */
+  const flow = document.getElementById('flow');
+  const fill = document.getElementById('spineFill');
+  function updateSpine() {
+    const r = flow.getBoundingClientRect();
+    const progress = Math.min(Math.max((window.innerHeight * 0.62 - r.top) / r.height, 0), 1);
+    fill.style.height = (progress * 100) + '%';
+  }
+  window.addEventListener('scroll', updateSpine, { passive: true });
+  window.addEventListener('resize', updateSpine, { passive: true });
+  updateSpine();
 </script>
 
 </body>

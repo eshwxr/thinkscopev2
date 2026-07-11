@@ -13,4 +13,11 @@ def synthesize_answer(client: Groq, question: str, chunks: list[dict]) -> str:
         {"role": "system", "content": SYNTHESIS_PROMPT},
         {"role": "user", "content": f"Question: {question}\n\nContext:\n{context}"},
     ]
-    return llm.chat(client, messages, max_tokens=300)
+    try:
+        return llm.chat(client, messages, max_tokens=300)
+    except Exception:
+        # Same failure mode as critic.py/pipeline.py: a rate-limit-exhausted
+        # or network-failed call here used to crash the whole eval run for
+        # one query instead of just producing an empty (correctly-scored-low)
+        # answer.
+        return ""

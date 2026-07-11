@@ -5,8 +5,11 @@ Local Docker + FastAPI only, per SOP -- no Redis, no cloud deployment.
 """
 
 import time
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from app import planner
@@ -14,7 +17,28 @@ from app.citation_verifier import synthesize_with_citations, verify_claims
 from app.hybrid_retrieval import retrieve_hybrid
 from app.llm import get_client
 
+FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
+
 app = FastAPI(title="ThinkScope V2")
+
+# Permissive CORS: the frontend is a static file that may be opened directly
+# (file://) or served from a different port than the API during local dev.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def serve_frontend() -> FileResponse:
+    return FileResponse(FRONTEND_DIR / "index.html")
+
+
+@app.get("/architecture")
+def serve_architecture() -> FileResponse:
+    return FileResponse(FRONTEND_DIR / "architecture.html")
 
 
 class QueryRequest(BaseModel):

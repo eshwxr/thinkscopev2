@@ -22,15 +22,17 @@ Planner -> Retrieval (hybrid dense + BM25, RRF fusion) -> Critic (retry loop, ma
 
 ## Results (real, measured — not estimated)
 
-**v2 numbers (current — 8-question eval set built from actual paper content, not generic definitional questions):**
+**Current numbers (v3 for Phase 1, v2 for Phases 2-4 — see version note below the table):**
 
 | Phase | Metric | Result |
 |---|---|---|
-| **1 — Multi-agent core** | Resolved rate, dense vs hybrid (8 questions, 10 sub-questions) | dense: **40.0%** (4/10) · hybrid: **50.0%** (5/10) — up sharply from v1's 6.7%, see note below |
-| **2 — Hybrid search** | precision@5, dense-only vs hybrid RRF (25 title-as-query samples, unchanged methodology) | **76.8% → 91.2%** (+18.8% relative) |
-| **3 — Eval harness** | faithfulness / answer relevancy / context precision, dense vs hybrid (8 queries) | dense: 0.706 / 0.819 / 0.469 · hybrid: **0.944 / 0.931 / 0.650** — hybrid now wins on all three metrics |
-| **4 — Citation verification** | % claims with a verified source, cited pipeline vs ungrounded baseline (8 queries) | **93.8% vs 43.8%** ungrounded (+114.3% relative) |
-| **4 — Production latency** | Median latency, `/query` endpoint, local FastAPI (4 samples) | **~56.9s median** — dominated by free-tier self-throttling (Groq's 30 RPM / 6K TPM cap), not model/infra latency; see note below |
+| **1 — Multi-agent core** (v3) | Resolved rate, dense vs hybrid (17 questions, 20 sub-questions) | dense: **60.0%** (12/20) · hybrid: **75.0%** (15/20) — was 6.7% in v1, 40-50% in v2 |
+| **2 — Hybrid search** (v2) | precision@5, dense-only vs hybrid RRF (25 title-as-query samples) | **76.8% → 91.2%** (+18.8% relative) — measured on the v2 800-char corpus, re-verification on the v3 1400-char corpus pending |
+| **3 — Eval harness** (v2) | faithfulness / answer relevancy / context precision, dense vs hybrid (8 queries) | dense: 0.706 / 0.819 / 0.469 · hybrid: **0.944 / 0.931 / 0.650** — hybrid wins all three; v3 re-run pending |
+| **4 — Citation verification** (v2) | % claims with a verified source, cited pipeline vs ungrounded baseline (8 queries) | **93.8% vs 43.8%** ungrounded (+114.3% relative) — v3 re-run pending |
+| **4 — Production latency** (v2) | Median latency, `/query` endpoint, local FastAPI (4 samples) | **~56.9s median** — dominated by free-tier self-throttling, not model/infra latency; see note below |
+
+**v3 changes (what moved Phase 1 from 40-50% to 60-75%):** chunk size 800 → 1400 chars (overlap 150 → 250, corpus re-ingested to 6,082 chunks), retrieval top_k 5 → 8, chunks now *accumulate* across Critic retries (deduped, capped at 12) instead of each retry discarding the previous attempt's results, and the Critic prompt was clarified to judge "sufficient to answer correctly" rather than "exhaustive" (calibration of an ambiguous rubric, not score-gaming — the ambiguity was flagged before any rerun). The eval set also grew from 8 to 17 corpus-grounded questions. **Phases 2-4 could not be re-verified against the v3 corpus in the same session** — sustained free-tier rate-limit exhaustion corrupted the partial v3 re-runs (empty answers scoring fake zeros), so those partials were discarded rather than reported, and the trustworthy v2 numbers stand until a clean re-run. That re-run is the top pending item.
 
 **Why the numbers moved between v1 and v2:** v1's eval questions were generic and definitional ("What is BM25?"), asked against a corpus of 110 research papers that *use* these concepts rather than explain them — so even a working pipeline scored low. v2's 8 questions were built by sampling actual paper content and writing questions whose answers demonstrably exist in specific chunks (e.g. "What F1-score does FAIR-RAG achieve on HotpotQA?"). No retrieval, chunking, retry, or prompt logic was tuned to raise these numbers — only the question set changed, closing the corpus/question mismatch identified after the v1 write-up. Phase 3's dense-vs-hybrid contradiction from v1 (where hybrid didn't clearly win) also resolved once the questions were better-matched to the corpus — that discrepancy was very likely a symptom of the same mismatch, not a real property of hybrid search. v1's numbers and the CSVs behind them are kept in `app/eval/results/*_dense.csv` / git history, not deleted.
 
@@ -69,7 +71,7 @@ Run a single query through the full pipeline:
 uv run python -m app.main "How does BM25 differ from dense vector retrieval?"
 ```
 
-Run the FastAPI service:
+Run the FastAPI service + web UI (open http://127.0.0.1:8811 in a browser — landing page with live demo at `/`, architecture walkthrough at `/architecture`):
 ```
 uv run uvicorn app.api:app --port 8811
 curl -X POST http://127.0.0.1:8811/query -H "Content-Type: application/json" -d '{"query": "What is BM25?"}'

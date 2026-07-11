@@ -16,11 +16,11 @@ EVAL_DIR = APP_DIR / "eval"
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 LLM_MODEL = "qwen/qwen3-32b"
 
-CHUNK_SIZE = 800
-CHUNK_OVERLAP = 150
+CHUNK_SIZE = 1400
+CHUNK_OVERLAP = 250
 
 MAX_RETRIEVAL_RETRIES = 2
-RETRIEVAL_TOP_K = 5
+RETRIEVAL_TOP_K = 8
 
 # "hybrid" (default) or "dense" -- lets the same pipeline be measured with
 # either retrieval method (e.g. Phase 1 checkpoint before/after comparison).

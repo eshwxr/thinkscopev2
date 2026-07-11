@@ -29,8 +29,14 @@ from app import config
 
 _THINK_RE = re.compile(r"<think>.*?</think>", re.DOTALL)
 
+# Groq free tier is 30 RPM = 1 call per 2s in theory, but real enforcement
+# (token-bucket, TPM interacting with RPM) hits 429s well before that in
+# practice -- 2.2s caused heavy rate-limit thrashing (5-attempt exponential
+# backoff climbing to 60s waits) that made things slower than a bigger
+# up-front delay would have. 3.5s is the empirical sweet spot found by
+# testing: still faster than the original 4.0s, without thrashing.
 HARD_CALL_TIMEOUT_SECONDS = 40
-PROACTIVE_THROTTLE_SECONDS = 4.0
+PROACTIVE_THROTTLE_SECONDS = 3.5
 MAX_ATTEMPTS = 5
 
 CACHE_DIR = config.DATA_DIR / "llm_cache"

@@ -77,7 +77,7 @@ def score_context_precision(client, question: str, contexts: list[str]) -> float
 
 
 def score_query(client, retrieval_fn, question: str) -> dict:
-    chunks = retrieval_fn(question, top_k=5)
+    chunks = retrieval_fn(question)
     contexts = [c["text"] for c in chunks]
     answer = synthesis.synthesize_answer(client, question, chunks)
 

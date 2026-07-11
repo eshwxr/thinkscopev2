@@ -3,6 +3,10 @@
 On critic failure the query is reformulated and retrieval retries,
 up to MAX_RETRIEVAL_RETRIES times, then falls through with best-effort chunks.
 Never loops forever.
+
+Chunks accumulate across retries (deduplicated by chunk id, capped) instead
+of being replaced each attempt -- a reformulated query finding 2 new useful
+chunks used to throw away everything found on the previous attempt.
 """
 
 import time
@@ -14,6 +18,8 @@ from app import config, critic
 from app.hybrid_retrieval import retrieve_hybrid
 from app.llm import get_client
 from app.retrieval import retrieve_dense
+
+MAX_ACCUMULATED_CHUNKS = 12
 
 
 class LoopState(TypedDict):
@@ -34,9 +40,18 @@ def _retrieve(query: str) -> list[dict]:
 def _retrieve_node(state: LoopState) -> LoopState:
     t0 = time.time()
     print(f"    [retrieve:{config.RETRIEVAL_MODE}] start query={state['search_query'][:40]!r}", flush=True)
-    chunks = _retrieve(state["search_query"])
-    print(f"    [retrieve] done in {time.time()-t0:.2f}s, {len(chunks)} chunks", flush=True)
-    return {**state, "chunks": chunks}
+    new_chunks = _retrieve(state["search_query"])
+
+    seen_ids = {c["id"] for c in state["chunks"]}
+    merged = list(state["chunks"])
+    for c in new_chunks:
+        if c["id"] not in seen_ids:
+            merged.append(c)
+            seen_ids.add(c["id"])
+    merged = merged[:MAX_ACCUMULATED_CHUNKS]
+
+    print(f"    [retrieve] done in {time.time()-t0:.2f}s, {len(new_chunks)} new, {len(merged)} accumulated", flush=True)
+    return {**state, "chunks": merged}
 
 
 def _critic_node(state: LoopState) -> LoopState:

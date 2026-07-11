@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ThinkScope — Autonomous Research Intelligence</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%237c9eff%22/><rect x=%2226%22 y=%2226%22 width=%2248%22 height=%2248%22 rx=%2212%22 fill=%22%230a0b0f%22/></svg>" />
+<style>
+  :root {
+    --bg: #0a0b0f;
+    --bg-soft: #12141a;
+    --card: #15171f;
+    --card-border: #23262f;
+    --text: #e8e9ed;
+    --text-dim: #8b8f9c;
+    --text-faint: #5c606c;
+    --accent: #7c9eff;
+    --accent-soft: rgba(124, 158, 255, 0.12);
+    --good: #4ade80;
+    --bad: #f87171;
+    --mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(124,158,255,0.10) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(16px);
+    background: rgba(10, 11, 15, 0.75);
+    border-bottom: 1px solid var(--card-border);
+  }
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--accent), #b591ff);
+    display: inline-block;
+  }
+  nav .links {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  nav .links a { color: inherit; text-decoration: none; transition: color 0.15s; }
+  nav .links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    padding: 110px 0 70px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(124,158,255,0.25);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  .badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 8px var(--good);
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    background: linear-gradient(180deg, #ffffff 0%, #b7bccb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p {
+    max-width: 640px;
+    margin: 24px auto 0;
+    font-size: 18px;
+    color: var(--text-dim);
+  }
+  .hero .cta {
+    margin-top: 40px;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 13px 26px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .btn-primary:hover { background: #d5d7de; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--card-border);
+  }
+  .btn-ghost:hover { border-color: var(--text-dim); }
+
+  /* ARCHITECTURE STRIP */
+  .arch-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 70px 0 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .arch-node {
+    padding: 9px 16px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .arch-arrow { color: var(--text-faint); }
+  .arch-link { text-decoration: none; display: block; }
+  .arch-link .arch-node { transition: border-color 0.15s, color 0.15s; }
+  .arch-link:hover .arch-node { border-color: rgba(124,158,255,0.4); color: var(--text); }
+  .arch-cta {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13.5px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .arch-link:hover .arch-cta { opacity: 1; transform: translateY(0); }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* SECTION */
+  section { padding: 90px 0; }
+  .section-head { text-align: center; margin-bottom: 52px; }
+  .section-head .eyebrow {
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-head h2 {
+    font-size: clamp(28px, 4vw, 38px);
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .section-head p {
+    color: var(--text-dim);
+    max-width: 560px;
+    margin: 14px auto 0;
+    font-size: 15.5px;
+  }
+
+  /* METRICS GRID */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 26px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .metric-card:hover { border-color: rgba(124,158,255,0.35); transform: translateY(-2px); }
+  .metric-card .phase-tag {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+  .metric-card .value {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .metric-card .value .before {
+    font-size: 17px;
+    color: var(--text-faint);
+    font-weight: 500;
+    text-decoration: line-through;
+  }
+  .metric-card .value .arrow { color: var(--text-faint); font-size: 16px; }
+  .metric-card .label {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .metric-card .delta {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: var(--mono);
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(74, 222, 128, 0.12);
+    color: var(--good);
+  }
+
+  /* QUERY DEMO */
+  .demo-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 8px;
+  }
+  .demo-inner {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .query-row {
+    display: flex;
+    gap: 10px;
+  }
+  .query-row input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: var(--sans);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .query-row input:focus { border-color: var(--accent); }
+  .query-row input::placeholder { color: var(--text-faint); }
+  .query-row button {
+    background: var(--accent);
+    color: #050608;
+    border: none;
+    border-radius: 10px;
+    padding: 0 22px;
+    font-weight: 700;
+    font-size: 14.5px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .query-row button:hover { opacity: 0.88; }
+  .query-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .api-hint {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--text-faint);
+    font-family: var(--mono);
+  }
+  .api-hint span { color: var(--text-dim); }
+
+  #results { margin-top: 26px; }
+  .status-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 20px 0;
+  }
+  .spinner {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--card-border);
+    border-top-color: var(--accent);
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .subq-block {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: var(--bg-soft);
+  }
+  .subq-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .claim {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    padding: 8px 0;
+    border-top: 1px solid var(--card-border);
+  }
+  .claim:first-of-type { border-top: none; }
+  .claim-badge {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    font-family: var(--mono);
+    padding: 2px 7px;
+    border-radius: 5px;
+    margin-top: 2px;
+  }
+  .claim-badge.verified { background: rgba(74,222,128,0.15); color: var(--good); }
+  .claim-badge.unverified { background: rgba(248,113,113,0.15); color: var(--bad); }
+
+  .summary-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--card-border);
+    font-size: 13px;
+    color: var(--text-faint);
+    font-family: var(--mono);
+    flex-wrap: wrap;
+  }
+  .summary-row b { color: var(--text-dim); }
+
+  .error-box {
+    border: 1px solid rgba(248,113,113,0.3);
+    background: rgba(248,113,113,0.06);
+    color: #ffb4b4;
+    padding: 16px 18px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-family: var(--mono);
+  }
+
+  /* STACK PILLS */
+  .stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-dim);
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
+
+  footer {
+    border-top: 1px solid var(--card-border);
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 13px;
+  }
+  footer a { color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .query-row { flex-direction: column; }
+    .query-row button { padding: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark"></span> ThinkScope</div>
+    <div class="links">
+      <a href="#demo">Live Demo</a>
+      <a href="#metrics">Results</a>
+      <a href="/architecture">Architecture</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="badge"><span class="dot"></span> v2 &middot; multi-agent RAG</div>
+    <h1>Autonomous research<br/>intelligence, grounded.</h1>
+    <p>A multi-agent retrieval system that plans, retrieves, critiques its own results, and verifies every claim against its source — before it ever reaches you.</p>
+    <div class="cta">
+      <a href="#demo" class="btn btn-primary">Try it live</a>
+      <a href="#metrics" class="btn btn-ghost">See the numbers</a>
+    </div>
+  </section>
+
+  <a href="/architecture" class="arch-link" title="See the full architecture walkthrough">
+    <div class="arch-strip">
+      <div class="arch-node">Planner</div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-node">Hybrid Retrieval</div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-node">Critic&nbsp;(retry &times;2)</div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-node">Cited Synthesis</div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-node">Citation Verifier</div>
+    </div>
+    <div class="arch-cta">Walk through each stage &rarr;</div>
+  </a>
+</div>
+
+<div class="wrap">
+  <section id="demo">
+    <div class="section-head">
+      <div class="eyebrow">Live Demo</div>
+      <h2>Ask the corpus something</h2>
+      <p>Runs the full pipeline against 110 indexed research papers. Every claim below is tagged with its source chunk and independently verified.</p>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-inner">
+        <div class="query-row">
+          <input id="queryInput" type="text" placeholder="e.g. How does BM25 differ from dense vector retrieval?" />
+          <button id="askBtn" onclick="askThinkScope()">Ask</button>
+        </div>
+        <div class="api-hint">Backend: <span id="apiBaseLabel">http://127.0.0.1:8811</span> &middot; start with <span>uv run uvicorn app.api:app --port 8811</span></div>
+        <div id="results"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="metrics">
+    <div class="section-head">
+      <div class="eyebrow">Measured Results</div>
+      <h2>Every number is from a script in the repo</h2>
+      <p>No estimates. Each metric is reproducible via <code>app/eval/</code> — including the ones that didn't improve.</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card reveal">
+        <div class="phase-tag">Phase 1 &middot; Agentic Loop</div>
+        <div class="value"><span class="before">6.7%</span><span class="arrow">&rarr;</span>75.0%</div>
+        <div class="label">Sub-questions resolved by the Planner&ndash;Critic retry loop</div>
+        <div class="delta">+68.3pp after retrieval tuning</div>
+      </div>
+
+      <div class="metric-card reveal">
+        <div class="phase-tag">Phase 2 &middot; Hybrid Search</div>
+        <div class="value"><span class="before">76.8%</span><span class="arrow">&rarr;</span>91.2%</div>
+        <div class="label">Precision@5, dense-only vs. dense+BM25 (RRF fusion)</div>
+        <div class="delta">+18.8% relative</div>
+      </div>
+
+      <div class="metric-card reveal">
+        <div class="phase-tag">Phase 3 &middot; Faithfulness</div>
+        <div class="value"><span class="before">0.706</span><span class="arrow">&rarr;</span>0.944</div>
+        <div class="label">Answer faithfulness to retrieved context, dense vs. hybrid</div>
+        <div class="delta">Hybrid wins on all 3 metrics</div>
+      </div>
+
+      <div class="metric-card reveal">
+        <div class="phase-tag">Phase 4 &middot; Trust Layer</div>
+        <div class="value"><span class="before">23.3%</span><span class="arrow">&rarr;</span>90.0%</div>
+        <div class="label">Claims independently verified against their source chunk</div>
+        <div class="delta">+285.7% vs. ungrounded baseline</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="stack">
+    <div class="section-head">
+      <div class="eyebrow">Under the hood</div>
+      <h2>Built for honesty, not just demos</h2>
+      <p>Every weak or flat result is kept and documented — not tuned away. See <code>WRITEUP.md</code> for the full methodology, or <a href="/architecture" style="color:var(--accent)">walk through the architecture stage by stage &rarr;</a></p>
+    </div>
+    <div class="stack-pills">
+      <div class="pill">LangGraph</div>
+      <div class="pill">ChromaDB</div>
+      <div class="pill">all-MiniLM-L6-v2</div>
+      <div class="pill">BM25 + RRF</div>
+      <div class="pill">Qwen3-32B / Groq</div>
+      <div class="pill">FastAPI</div>
+      <div class="pill">Docker</div>
+      <div class="pill">GitHub Actions</div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  ThinkScope V2 &middot; built end-to-end from scratch &middot; <a href="https://github.com/eshwxr/thinkscopev2" target="_blank">source on GitHub</a>
+</footer>
+
+<script>
+  const API_BASE = window.location.origin.includes('8811') || window.location.protocol === 'file:'
+    ? 'http://127.0.0.1:8811'
+    : window.location.origin;
+  document.getElementById('apiBaseLabel').textContent = API_BASE;
+
+  const input = document.getElementById('queryInput');
+  const btn = document.getElementById('askBtn');
+  const results = document.getElementById('results');
+
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') askThinkScope(); });
+
+  async function askThinkScope() {
+    const query = input.value.trim();
+    if (!query) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Thinking…';
+    results.innerHTML = `<div class="status-line"><div class="spinner"></div> Running Planner &rarr; Retrieval &rarr; Critic &rarr; Verification (free-tier LLM, this can take 30-90s)…</div>`;
+
+    try {
+      const res = await fetch(`${API_BASE}/query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+      if (!res.ok) throw new Error(`Server responded ${res.status}`);
+      const data = await res.json();
+      renderResults(data);
+    } catch (err) {
+      results.innerHTML = `<div class="error-box">Could not reach the ThinkScope API at <b>${API_BASE}</b>.<br/>Make sure it's running: <code>uv run uvicorn app.api:app --port 8811</code><br/><br/>${err.message}</div>`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Ask';
+    }
+  }
+
+  function renderResults(data) {
+    const verifiedCount = data.claims.filter(c => c.verified).length;
+
+    let html = `<div class="subq-block">
+      <div class="subq-title">${data.sub_questions.length} sub-question(s) planned</div>`;
+    for (const sq of data.sub_questions) {
+      html += `<div class="claim" style="border-top:none;padding:4px 0;color:var(--text-dim)">&bull; ${escapeHtml(sq)}</div>`;
+    }
+    html += `</div>`;
+
+    html += `<div class="subq-block">
+      <div class="subq-title">Cited &amp; verified claims</div>`;
+    if (data.claims.length === 0) {
+      html += `<div class="claim" style="border-top:none">No claims generated.</div>`;
+    }
+    for (const c of data.claims) {
+      html += `<div class="claim">
+        <span class="claim-badge ${c.verified ? 'verified' : 'unverified'}">${c.verified ? 'VERIFIED' : 'UNVERIFIED'}</span>
+        <span>${escapeHtml(c.text)} ${c.chunk_id ? `<span style="color:var(--text-faint)">[${escapeHtml(c.chunk_id)}]</span>` : ''}</span>
+      </div>`;
+    }
+    html += `<div class="summary-row">
+      <div><b>${(data.verified_claim_ratio * 100).toFixed(0)}%</b> verified</div>
+      <div><b>${verifiedCount}/${data.claims.length}</b> claims grounded</div>
+      <div><b>${(data.latency_ms / 1000).toFixed(1)}s</b> latency</div>
+    </div></div>`;
+
+    results.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    }
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>

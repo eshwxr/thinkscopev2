@@ -1,11 +1,21 @@
 query,sub_question,resolved,retries_used,hit_max_retries
-What are the two fundamental limitations of using LLMs as knowledge bases that motivate retrieval-augmented generation?,What are the two fundamental limitations of using LLMs as knowledge bases that motivate retrieval-augmented generation?,True,1,False
+What are the two fundamental limitations of using LLMs as knowledge bases that motivate retrieval-augmented generation?,What are the two fundamental limitations of using LLMs as knowledge bases that motivate retrieval-augmented generation?,True,0,False
 What does FAIR-RAG's Adaptive Query Refinement agent generate when it detects an evidence gap?,What does FAIR-RAG's Adaptive Query Refinement agent generate when it detects an evidence gap?,True,1,False
-"What F1-score does FAIR-RAG achieve on HotpotQA, and how much is that over the strongest iterative baseline?",What F1-score does FAIR-RAG achieve on HotpotQA?,False,2,True
-"What F1-score does FAIR-RAG achieve on HotpotQA, and how much is that over the strongest iterative baseline?",What is the F1-score of the strongest iterative baseline on HotpotQA?,False,2,True
-"What F1-score does FAIR-RAG achieve on HotpotQA, and how much is that over the strongest iterative baseline?",How much higher is FAIR-RAG's F1-score compared to the strongest iterative baseline?,False,2,True
-What two types of indexes does Blended RAG combine to improve retrieval accuracy?,What two types of indexes does Blended RAG combine to improve retrieval accuracy?,True,0,False
+"What F1-score does FAIR-RAG achieve on HotpotQA, and how much is that over the strongest iterative baseline?",What F1-score does FAIR-RAG achieve on HotpotQA?,True,0,False
+"What F1-score does FAIR-RAG achieve on HotpotQA, and how much is that over the strongest iterative baseline?",What is the F1-score of the strongest iterative baseline on HotpotQA?,True,0,False
+"What F1-score does FAIR-RAG achieve on HotpotQA, and how much is that over the strongest iterative baseline?",How much higher is FAIR-RAG's F1-score compared to the strongest iterative baseline?,True,0,False
+What two types of indexes does Blended RAG combine to improve retrieval accuracy?,What two types of indexes does Blended RAG combine to improve retrieval accuracy?,False,2,True
 What method does InF-Embed use to align retrieval outcomes with user intent?,What method does InF-Embed use to align retrieval outcomes with user intent?,False,2,True
-How much does InF-Embed improve instruction-following capability for embedding-based retrieval?,How much does InF-Embed improve instruction-following capability for embedding-based retrieval?,True,0,False
+How much does InF-Embed improve instruction-following capability for embedding-based retrieval?,How much does InF-Embed improve instruction-following capability for embedding-based retrieval?,True,1,False
 "What role does the Retriever play in a RAG system, as described in the Blended RAG paper?","What role does the Retriever play in a RAG system, as described in the Blended RAG paper?",False,2,True
 What three dimensions does the RAGAS paper say must be considered when evaluating a RAG architecture?,What three dimensions does the RAGAS paper say must be considered when evaluating a RAG architecture?,False,2,True
+What top-40 retrieval accuracy does DeepCodeSeek achieve for API prediction?,What top-40 retrieval accuracy does DeepCodeSeek achieve for API prediction?,True,0,False
+What three retrieval methods does the DS@GT TREC ToT system fuse in its first stage?,What three retrieval methods does the DS@GT TREC ToT system fuse in its first stage?,False,2,True
+How many topical domains does DS@GT's topic-aware multi-index dense retrieval partition the Wikipedia corpus into?,How many topical domains does DS@GT's topic-aware multi-index dense retrieval partition the Wikipedia corpus into?,True,0,False
+What problem does the TREC Tip-of-the-Tongue track address?,What problem does the TREC Tip-of-the-Tongue track address?,False,2,True
+"By how much does dynamic retrieval reduce retrieval calls, and what is the accuracy tradeoff, according to the uncertainty detection paper?",By how much does dynamic retrieval reduce retrieval calls according to the uncertainty detection paper?,True,0,False
+"By how much does dynamic retrieval reduce retrieval calls, and what is the accuracy tradeoff, according to the uncertainty detection paper?",What is the accuracy tradeoff associated with dynamic retrieval in the uncertainty detection paper?,True,0,False
+What does PB-LLM do with salient weights during binarization?,What does PB-LLM do with salient weights during binarization?,True,0,False
+What decoder architecture are Jais and Jais-chat based on?,What decoder architecture are Jais and Jais-chat based on?,False,2,True
+What method does the Large Language Gibbs paper use instead of single-pass autoregressive generation?,What method does the Large Language Gibbs paper use instead of single-pass autoregressive generation?,True,0,False
+What three intrinsic constraints restrict LLMs according to the Engineering the RAG Stack paper?,What three intrinsic constraints restrict LLMs according to the Engineering the RAG Stack paper?,False,2,True

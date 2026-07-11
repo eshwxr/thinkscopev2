@@ -1,12 +1,14 @@
 {
   "dense_baseline": {
-    "faithfulness": 0.8019999999999999,
-    "answer_relevancy": 0.9550000000000001,
-    "context_precision": 0.6950000000000001
+    "faithfulness": 0.70625,
+    "answer_relevancy": 0.81875,
+    "context_precision": 0.46875
   },
   "hybrid_phase2": {
-    "faithfulness": 0.798,
-    "answer_relevancy": 0.945,
-    "context_precision": 0.67
-  }
+    "faithfulness": 0.94375,
+    "answer_relevancy": 0.93125,
+    "context_precision": 0.65
+  },
+  "n_dense": 8,
+  "n_hybrid": 8
 }

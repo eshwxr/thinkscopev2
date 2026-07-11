@@ -1,5 +1,3 @@
-import json
-
 from app import config, planner
 from app.graph import run_retrieval_critic_loop
 from app.llm import get_client
@@ -9,7 +7,10 @@ def answer_query(query: str) -> dict:
     client = get_client()
     try:
         sub_questions = planner.plan(client, query)
-    except (json.JSONDecodeError, KeyError):
+    except Exception:
+        # Any planner failure (unparseable JSON, exhausted rate-limit retries,
+        # network error) falls back to treating the original query as the
+        # single sub-question, instead of crashing the whole run.
         sub_questions = [query]
 
     results = []

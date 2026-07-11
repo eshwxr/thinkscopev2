@@ -5,7 +5,6 @@ up to MAX_RETRIEVAL_RETRIES times, then falls through with best-effort chunks.
 Never loops forever.
 """
 
-import json
 import time
 from typing import TypedDict
 
@@ -14,6 +13,7 @@ from langgraph.graph import END, StateGraph
 from app import config, critic
 from app.hybrid_retrieval import retrieve_hybrid
 from app.llm import get_client
+from app.retrieval import retrieve_dense
 
 
 class LoopState(TypedDict):
@@ -25,10 +25,16 @@ class LoopState(TypedDict):
     retries: int
 
 
+def _retrieve(query: str) -> list[dict]:
+    if config.RETRIEVAL_MODE == "dense":
+        return retrieve_dense(query)
+    return retrieve_hybrid(query)
+
+
 def _retrieve_node(state: LoopState) -> LoopState:
     t0 = time.time()
-    print(f"    [retrieve] start query={state['search_query'][:40]!r}", flush=True)
-    chunks = retrieve_hybrid(state["search_query"])
+    print(f"    [retrieve:{config.RETRIEVAL_MODE}] start query={state['search_query'][:40]!r}", flush=True)
+    chunks = _retrieve(state["search_query"])
     print(f"    [retrieve] done in {time.time()-t0:.2f}s, {len(chunks)} chunks", flush=True)
     return {**state, "chunks": chunks}
 
@@ -39,8 +45,15 @@ def _critic_node(state: LoopState) -> LoopState:
     client = get_client()
     try:
         verdict = critic.critique(client, state["sub_question"], state["chunks"])
-    except (json.JSONDecodeError, KeyError):
-        verdict = {"sufficient": False, "reason": "critic returned unparseable output", "reformulated_query": state["search_query"]}
+    except Exception as exc:
+        # Any critic failure (unparseable JSON, exhausted rate-limit retries,
+        # network error) degrades to "insufficient" so one bad LLM call fails
+        # a single sub-question instead of crashing the whole eval run.
+        verdict = {
+            "sufficient": False,
+            "reason": f"critic call failed: {type(exc).__name__}: {exc}",
+            "reformulated_query": state["search_query"],
+        }
     print(f"    [critic] done in {time.time()-t0:.2f}s, sufficient={verdict.get('sufficient')}", flush=True)
     return {
         **state,

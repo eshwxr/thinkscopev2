@@ -22,5 +22,9 @@ CHUNK_OVERLAP = 150
 MAX_RETRIEVAL_RETRIES = 2
 RETRIEVAL_TOP_K = 5
 
+# "hybrid" (default) or "dense" -- lets the same pipeline be measured with
+# either retrieval method (e.g. Phase 1 checkpoint before/after comparison).
+RETRIEVAL_MODE = os.environ.get("RETRIEVAL_MODE", "hybrid")
+
 HF_TOKEN = os.environ.get("HF_TOKEN")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")

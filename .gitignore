@@ -15,8 +15,8 @@ wheels/
 # Data & vector store (regenerated, not source)
 chroma_db/
 .ragas_cache/
-data/*
-!data/.gitkeep
+app/data/*
+!app/data/.gitkeep
 
 # OS
 .DS_Store

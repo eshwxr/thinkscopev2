@@ -16,15 +16,13 @@ Parallel: RAGAS eval harness, FastAPI + Docker service. Full details in [SOP.md]
 
 ## Project layout
 
-- `src/thinkscope/` — application code (Planner, Retrieval, Critic, etc. — added phase by phase)
-- `data/` — research paper corpus (gitignored, regenerate/download locally)
-- `eval/` — eval question sets and RAGAS harness
+- `app/` — everything: application code (Planner, Retrieval, Critic, etc. — added phase by phase), `app/data/` (research paper corpus, gitignored, regenerate/download locally), `app/eval/` (eval question sets and RAGAS harness)
 
 ## Setup
 
 ```
 uv sync
-uv run python main.py
+uv run python app/main.py
 ```
 
 ## Reminder

@@ -1,0 +1,26 @@
+name: RAGAS eval smoke test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ragas-smoketest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run RAGAS integration smoke test
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: uv run python -m app.ragas_smoketest

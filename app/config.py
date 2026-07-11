@@ -1,6 +1,12 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# Loaded here, not in each entrypoint, so env vars are populated no matter
+# which module gets imported first (import order otherwise left this None).
+load_dotenv()
+
 APP_DIR = Path(__file__).parent
 DATA_DIR = APP_DIR / "data"
 PAPERS_DIR = DATA_DIR / "papers"

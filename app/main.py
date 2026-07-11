@@ -1,12 +1,9 @@
 import sys
 
-from dotenv import load_dotenv
-
 from app.pipeline import answer_query
 
 
 def main():
-    load_dotenv()
     query = " ".join(sys.argv[1:]) or "What techniques improve retrieval precision in RAG systems?"
 
     result = answer_query(query)

@@ -7,14 +7,11 @@ Run this once Phase 1 is stable, before tagging v0-baseline.
 import csv
 import json
 
-from dotenv import load_dotenv
-
 from app import config
 from app.pipeline import answer_query
 
 
 def run_checkpoint(output_name: str = "phase1_checkpoint.csv") -> None:
-    load_dotenv()
     questions = json.loads((config.EVAL_DIR / "questions.json").read_text())
 
     rows = []

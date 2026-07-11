@@ -1,0 +1,11 @@
+query,faithfulness,answer_relevancy,context_precision
+What techniques improve retrieval precision in RAG systems?,0.75,1.0,0.6
+How does BM25 differ from dense vector retrieval?,0.8,1.0,0.8
+What is Reciprocal Rank Fusion and why is it used in hybrid search?,1.0,1.0,0.8
+How do multi-agent LLM systems coordinate between planning and execution?,0.8,0.95,0.8
+What causes hallucination in retrieval-augmented generation?,0.75,0.85,0.8
+How is faithfulness measured in RAG evaluation frameworks like RAGAS?,0.75,1.0,0.6
+What role does a critic or verifier agent play in agentic RAG pipelines?,0.67,0.95,0.6
+How does chunk size affect retrieval quality?,0.8,1.0,0.8
+What are common failure modes of single-hop retrieval on multi-hop questions?,0.95,0.95,0.75
+How do LLM agents decide when to re-retrieve versus answer directly?,0.75,0.85,0.4

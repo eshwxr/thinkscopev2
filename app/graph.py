@@ -12,8 +12,8 @@ from typing import TypedDict
 from langgraph.graph import END, StateGraph
 
 from app import config, critic
+from app.hybrid_retrieval import retrieve_hybrid
 from app.llm import get_client
-from app.retrieval import retrieve_dense
 
 
 class LoopState(TypedDict):
@@ -28,7 +28,7 @@ class LoopState(TypedDict):
 def _retrieve_node(state: LoopState) -> LoopState:
     t0 = time.time()
     print(f"    [retrieve] start query={state['search_query'][:40]!r}", flush=True)
-    chunks = retrieve_dense(state["search_query"])
+    chunks = retrieve_hybrid(state["search_query"])
     print(f"    [retrieve] done in {time.time()-t0:.2f}s, {len(chunks)} chunks", flush=True)
     return {**state, "chunks": chunks}
 

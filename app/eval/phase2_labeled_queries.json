@@ -1,0 +1,102 @@
+[
+  {
+    "query": "WizardCoder: Empowering Code Large Language Models with Evol-Instruct",
+    "target_paper_id": "2306.08568v2"
+  },
+  {
+    "query": "Video Enriched Retrieval Augmented Generation Using Aligned Video Captions",
+    "target_paper_id": "2405.17706v1"
+  },
+  {
+    "query": "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation",
+    "target_paper_id": "2502.00306v2"
+  },
+  {
+    "query": "A Critical Review of Causal Reasoning Benchmarks for Large Language Models",
+    "target_paper_id": "2407.08029v1"
+  },
+  {
+    "query": "Decoupling Semantics and Logic: A Training-Free Coarse-to-Fine Pipeline for Video Retrieval-Augmented Generation",
+    "target_paper_id": "2606.07924v1"
+  },
+  {
+    "query": "Leveraging In-Context Learning and Retrieval-Augmented Generation for Automatic Question Generation in Educational Domains",
+    "target_paper_id": "2501.17397v1"
+  },
+  {
+    "query": "RAC: Retrieval-Augmented Clarification for Faithful Conversational Search",
+    "target_paper_id": "2601.11722v1"
+  },
+  {
+    "query": "Investigating Retrieval-Augmented Generation in Quranic Studies: A Study of 13 Open-Source Large Language Models",
+    "target_paper_id": "2503.16581v1"
+  },
+  {
+    "query": "Scaling Behavior of Machine Translation with Large Language Models under Prompt Injection Attacks",
+    "target_paper_id": "2403.09832v1"
+  },
+  {
+    "query": "How Do LLMs Cite? A Mechanistic Interpretation of Attribution in Retrieval-Augmented Generation",
+    "target_paper_id": "2606.28358v1"
+  },
+  {
+    "query": "Soft Inductive Bias Approach via Explicit Reasoning Perspectives in Inappropriate Utterance Detection Using Large Language Models",
+    "target_paper_id": "2512.08480v1"
+  },
+  {
+    "query": "Enhancing Human-Like Responses in Large Language Models",
+    "target_paper_id": "2501.05032v2"
+  },
+  {
+    "query": "Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery",
+    "target_paper_id": "2512.13930v1"
+  },
+  {
+    "query": "CARROT: A Learned Cost-Constrained Retrieval Optimization System for RAG",
+    "target_paper_id": "2411.00744v2"
+  },
+  {
+    "query": "PediatricsGPT: Large Language Models as Chinese Medical Assistants for Pediatric Applications",
+    "target_paper_id": "2405.19266v4"
+  },
+  {
+    "query": "Evaluating Chunking Strategies for Retrieval-Augmented Generation on Academic Texts",
+    "target_paper_id": "2607.01852v1"
+  },
+  {
+    "query": "Ragas: Automated Evaluation of Retrieval Augmented Generation",
+    "target_paper_id": "2309.15217v2"
+  },
+  {
+    "query": "Large Language Models Merging for Enhancing the Link Stealing Attack on Graph Neural Networks",
+    "target_paper_id": "2412.05830v1"
+  },
+  {
+    "query": "Attacks on Third-Party APIs of Large Language Models",
+    "target_paper_id": "2404.16891v1"
+  },
+  {
+    "query": "Towards Better Instruction Following Retrieval Models",
+    "target_paper_id": "2505.21439v1"
+  },
+  {
+    "query": "Retrieval Models Aren't Tool-Savvy: Benchmarking Tool Retrieval for Large Language Models",
+    "target_paper_id": "2503.01763v2"
+  },
+  {
+    "query": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
+    "target_paper_id": "2312.10793v3"
+  },
+  {
+    "query": "Large Language Models Lack Understanding of Character Composition of Words",
+    "target_paper_id": "2405.11357v3"
+  },
+  {
+    "query": "Self-Cognition in Large Language Models: An Exploratory Study",
+    "target_paper_id": "2407.01505v1"
+  },
+  {
+    "query": "Agents: An Open-source Framework for Autonomous Language Agents",
+    "target_paper_id": "2309.07870v3"
+  }
+]

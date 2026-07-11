@@ -1,0 +1,26 @@
+query,dense_precision_at_5,dense_hit_at_5,hybrid_precision_at_5,hybrid_hit_at_5
+WizardCoder: Empowering Code Large Language Models with Evol-Instruct,0.8,1,0.8,1
+Video Enriched Retrieval Augmented Generation Using Aligned Video Captions,1.0,1,1.0,1
+Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation,0.4,1,1.0,1
+A Critical Review of Causal Reasoning Benchmarks for Large Language Models,0.8,1,1.0,1
+Decoupling Semantics and Logic: A Training-Free Coarse-to-Fine Pipeline for Video Retrieval-Augmented Generation,0.8,1,1.0,1
+Leveraging In-Context Learning and Retrieval-Augmented Generation for Automatic Question Generation in Educational Domains,1.0,1,1.0,1
+RAC: Retrieval-Augmented Clarification for Faithful Conversational Search,0.8,1,1.0,1
+Investigating Retrieval-Augmented Generation in Quranic Studies: A Study of 13 Open-Source Large Language Models,1.0,1,1.0,1
+Scaling Behavior of Machine Translation with Large Language Models under Prompt Injection Attacks,1.0,1,1.0,1
+How Do LLMs Cite? A Mechanistic Interpretation of Attribution in Retrieval-Augmented Generation,0.4,1,0.8,1
+Soft Inductive Bias Approach via Explicit Reasoning Perspectives in Inappropriate Utterance Detection Using Large Language Models,0.2,1,0.4,1
+Enhancing Human-Like Responses in Large Language Models,1.0,1,1.0,1
+Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery,1.0,1,1.0,1
+CARROT: A Learned Cost-Constrained Retrieval Optimization System for RAG,0.6,1,1.0,1
+PediatricsGPT: Large Language Models as Chinese Medical Assistants for Pediatric Applications,1.0,1,1.0,1
+Evaluating Chunking Strategies for Retrieval-Augmented Generation on Academic Texts,0.4,1,0.6,1
+Ragas: Automated Evaluation of Retrieval Augmented Generation,0.4,1,0.4,1
+Large Language Models Merging for Enhancing the Link Stealing Attack on Graph Neural Networks,1.0,1,1.0,1
+Attacks on Third-Party APIs of Large Language Models,0.8,1,1.0,1
+Towards Better Instruction Following Retrieval Models,1.0,1,1.0,1
+Retrieval Models Aren't Tool-Savvy: Benchmarking Tool Retrieval for Large Language Models,0.8,1,1.0,1
+Demystifying Instruction Mixing for Fine-tuning Large Language Models,0.6,1,0.8,1
+Large Language Models Lack Understanding of Character Composition of Words,0.6,1,1.0,1
+Self-Cognition in Large Language Models: An Exploratory Study,0.8,1,1.0,1
+Agents: An Open-source Framework for Autonomous Language Agents,1.0,1,1.0,1

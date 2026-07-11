@@ -1,0 +1,17 @@
+[
+  "What techniques improve retrieval precision in RAG systems?",
+  "How does BM25 differ from dense vector retrieval?",
+  "What is Reciprocal Rank Fusion and why is it used in hybrid search?",
+  "How do multi-agent LLM systems coordinate between planning and execution?",
+  "What causes hallucination in retrieval-augmented generation?",
+  "How is faithfulness measured in RAG evaluation frameworks like RAGAS?",
+  "What role does a critic or verifier agent play in agentic RAG pipelines?",
+  "How does chunk size affect retrieval quality?",
+  "What are common failure modes of single-hop retrieval on multi-hop questions?",
+  "How do LLM agents decide when to re-retrieve versus answer directly?",
+  "What is context precision and how does it differ from recall in RAG evaluation?",
+  "How can citation verification reduce unverifiable claims in generated answers?",
+  "What are the trade-offs between fixed-size and semantic chunking?",
+  "How do embedding models like all-MiniLM-L6-v2 compare to larger embedding models for retrieval?",
+  "What is the role of query reformulation in iterative retrieval loops?"
+]

@@ -1,0 +1,31 @@
+query,sub_question,resolved,retries_used,hit_max_retries
+What techniques improve retrieval precision in RAG systems?,What techniques improve retrieval precision in RAG systems?,False,2,True
+How does BM25 differ from dense vector retrieval?,What is BM25 and how does it work?,False,2,True
+How does BM25 differ from dense vector retrieval?,What is dense vector retrieval and how does it work?,True,2,False
+How does BM25 differ from dense vector retrieval?,What are the key differences between BM25 and dense vector retrieval?,False,2,True
+What is Reciprocal Rank Fusion and why is it used in hybrid search?,What is Reciprocal Rank Fusion?,True,0,False
+What is Reciprocal Rank Fusion and why is it used in hybrid search?,Why is Reciprocal Rank Fusion used in hybrid search?,False,2,True
+How do multi-agent LLM systems coordinate between planning and execution?,What are the key mechanisms used in multi-agent LLM systems for planning tasks?,False,2,True
+How do multi-agent LLM systems coordinate between planning and execution?,How do execution processes interact with planning in multi-agent LLM systems?,False,2,True
+How do multi-agent LLM systems coordinate between planning and execution?,What coordination strategies ensure alignment between planning and execution in multi-agent LLM systems?,False,2,True
+What causes hallucination in retrieval-augmented generation?,What causes hallucination in retrieval-augmented generation?,False,2,True
+How is faithfulness measured in RAG evaluation frameworks like RAGAS?,How is faithfulness measured in RAG evaluation frameworks like RAGAS?,False,2,True
+What role does a critic or verifier agent play in agentic RAG pipelines?,What role does a critic or verifier agent play in agentic RAG pipelines?,False,2,True
+How does chunk size affect retrieval quality?,How does chunk size influence the accuracy of information retrieval systems?,False,2,True
+How does chunk size affect retrieval quality?,What is the relationship between chunk size and the relevance of retrieved results?,False,2,True
+How does chunk size affect retrieval quality?,How do different chunk sizes impact the performance of retrieval models?,False,2,True
+What are common failure modes of single-hop retrieval on multi-hop questions?,What are common failure modes of single-hop retrieval on multi-hop questions?,False,2,True
+How do LLM agents decide when to re-retrieve versus answer directly?,How do LLM agents decide when to re-retrieve versus answer directly?,False,2,True
+What is context precision and how does it differ from recall in RAG evaluation?,What is context precision in RAG evaluation?,False,2,True
+What is context precision and how does it differ from recall in RAG evaluation?,What is recall in RAG evaluation?,False,2,True
+What is context precision and how does it differ from recall in RAG evaluation?,How does context precision differ from recall in RAG evaluation?,False,2,True
+How can citation verification reduce unverifiable claims in generated answers?,What role does citation verification play in ensuring the accuracy of generated answers?,False,2,True
+How can citation verification reduce unverifiable claims in generated answers?,How does the inclusion of citations help in identifying and eliminating unverifiable claims?,False,2,True
+How can citation verification reduce unverifiable claims in generated answers?,What are the mechanisms by which citation verification systems assess the reliability of sources?,False,2,True
+What are the trade-offs between fixed-size and semantic chunking?,What are the advantages of fixed-size chunking in text processing?,False,2,True
+What are the trade-offs between fixed-size and semantic chunking?,What are the advantages of semantic chunking in text processing?,False,2,True
+What are the trade-offs between fixed-size and semantic chunking?,What are the limitations or disadvantages of fixed-size chunking compared to semantic chunking?,False,2,True
+How do embedding models like all-MiniLM-L6-v2 compare to larger embedding models for retrieval?,How do the performance metrics of all-MiniLM-L6-v2 compare to larger embedding models in retrieval tasks?,False,2,True
+How do embedding models like all-MiniLM-L6-v2 compare to larger embedding models for retrieval?,What are the trade-offs between computational efficiency and retrieval accuracy when using all-MiniLM-L6-v2 versus larger embedding models?,False,2,True
+How do embedding models like all-MiniLM-L6-v2 compare to larger embedding models for retrieval?,In what scenarios is all-MiniLM-L6-v2 a better choice for retrieval compared to larger models?,False,2,True
+What is the role of query reformulation in iterative retrieval loops?,What is the role of query reformulation in iterative retrieval loops?,False,2,True

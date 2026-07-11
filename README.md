@@ -1,6 +1,6 @@
 # ThinkScope V2
 
-Autonomous multi-agent research intelligence RAG system. Built from scratch (not forked from V1) as a placement project — see [SOP.md](./SOP.md) for the full build plan, target resume bullets, and phase-by-phase scope.
+Autonomous multi-agent research intelligence RAG system. Built from scratch (not forked from V1) as a placement project — see [SOP.md](./SOP.md) for the full build plan, target resume bullets, and phase-by-phase scope, and [WRITEUP.md](./WRITEUP.md) for the final polished resume bullets and interview walkthrough.
 
 ## Status
 

@@ -9,7 +9,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from app import planner
@@ -29,16 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/")
-def serve_frontend() -> FileResponse:
-    return FileResponse(FRONTEND_DIR / "index.html")
-
-
-@app.get("/architecture")
-def serve_architecture() -> FileResponse:
-    return FileResponse(FRONTEND_DIR / "architecture.html")
 
 
 class QueryRequest(BaseModel):
@@ -88,3 +78,9 @@ def query(request: QueryRequest) -> QueryResponse:
         verified_claim_ratio=ratio,
         latency_ms=(time.time() - t0) * 1000,
     )
+
+
+# Mounted last: API routes above take priority. html=True serves index.html
+# at "/" and any other file (e.g. architecture.html) by its exact name --
+# same relative links work identically here and on GitHub Pages.
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")

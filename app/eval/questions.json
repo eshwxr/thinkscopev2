@@ -13,7 +13,5 @@
   "What problem does the TREC Tip-of-the-Tongue track address?",
   "By how much does dynamic retrieval reduce retrieval calls, and what is the accuracy tradeoff, according to the uncertainty detection paper?",
   "What does PB-LLM do with salient weights during binarization?",
-  "What decoder architecture are Jais and Jais-chat based on?",
-  "What method does the Large Language Gibbs paper use instead of single-pass autoregressive generation?",
-  "What three intrinsic constraints restrict LLMs according to the Engineering the RAG Stack paper?"
+  "What method does the Large Language Gibbs paper use instead of single-pass autoregressive generation?"
 ]

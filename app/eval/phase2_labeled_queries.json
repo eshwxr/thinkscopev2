@@ -1,7 +1,7 @@
 [
   {
-    "query": "WizardCoder: Empowering Code Large Language Models with Evol-Instruct",
-    "target_paper_id": "2306.08568v2"
+    "query": "Large Language Models Reasoning Abilities Under Non-Ideal Conditions After RL-Fine-Tuning",
+    "target_paper_id": "2508.04848v1"
   },
   {
     "query": "Video Enriched Retrieval Augmented Generation Using Aligned Video Captions",
@@ -12,16 +12,16 @@
     "target_paper_id": "2502.00306v2"
   },
   {
-    "query": "A Critical Review of Causal Reasoning Benchmarks for Large Language Models",
-    "target_paper_id": "2407.08029v1"
+    "query": "Evolutionary Computation in the Era of Large Language Model: Survey and Roadmap",
+    "target_paper_id": "2401.10034v3"
   },
   {
     "query": "Decoupling Semantics and Logic: A Training-Free Coarse-to-Fine Pipeline for Video Retrieval-Augmented Generation",
     "target_paper_id": "2606.07924v1"
   },
   {
-    "query": "Leveraging In-Context Learning and Retrieval-Augmented Generation for Automatic Question Generation in Educational Domains",
-    "target_paper_id": "2501.17397v1"
+    "query": "Retrieval Models Aren't Tool-Savvy: Benchmarking Tool Retrieval for Large Language Models",
+    "target_paper_id": "2503.01763v2"
   },
   {
     "query": "RAC: Retrieval-Augmented Clarification for Faithful Conversational Search",
@@ -44,8 +44,8 @@
     "target_paper_id": "2512.08480v1"
   },
   {
-    "query": "Enhancing Human-Like Responses in Large Language Models",
-    "target_paper_id": "2501.05032v2"
+    "query": "Not All Experts are Equal: Efficient Expert Pruning and Skipping for Mixture-of-Experts Large Language Models",
+    "target_paper_id": "2402.14800v2"
   },
   {
     "query": "Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery",
@@ -80,8 +80,8 @@
     "target_paper_id": "2505.21439v1"
   },
   {
-    "query": "Retrieval Models Aren't Tool-Savvy: Benchmarking Tool Retrieval for Large Language Models",
-    "target_paper_id": "2503.01763v2"
+    "query": "Neural ranking models for document retrieval",
+    "target_paper_id": "2102.11903v2"
   },
   {
     "query": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
@@ -92,11 +92,11 @@
     "target_paper_id": "2405.11357v3"
   },
   {
-    "query": "Self-Cognition in Large Language Models: An Exploratory Study",
-    "target_paper_id": "2407.01505v1"
+    "query": "All Languages Matter: On the Multilingual Safety of Large Language Models",
+    "target_paper_id": "2310.00905v2"
   },
   {
-    "query": "Agents: An Open-source Framework for Autonomous Language Agents",
-    "target_paper_id": "2309.07870v3"
+    "query": "Knowledge-Driven Agentic Scientific Corpus Distillation Framework for Biomedical Large Language Models Training",
+    "target_paper_id": "2504.19565v3"
   }
 ]
